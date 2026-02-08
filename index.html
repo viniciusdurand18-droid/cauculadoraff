@@ -1,20 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>
-        
-    </h1>
-</body>
-</html><!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>FF PRO BET</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora FF</title>
 
 <style>
 :root{
@@ -123,7 +112,7 @@ small{color:#aaa}
 
 <!-- LOGIN -->
 <div class="card" id="loginBox">
-    <h2>FF PRO BET</h2>
+    <h2>Calculadora FF</h2>
     <input id="loginUser" placeholder="Usuário">
     <input id="loginPass" type="password" placeholder="Senha">
     <button class="btn" onclick="login()">Entrar</button>
@@ -132,7 +121,7 @@ small{color:#aaa}
 
 <!-- APP -->
 <div class="card hidden" id="appBox">
-    <h3 class="rgb">🔥 FF PRO BET</h3>
+    <h3 class="rgb">🔥 Calculadora FF</h3>
 
     <input id="saldo" disabled>
 
@@ -247,54 +236,3 @@ function depositar(){
     usuarioAtual.saldo+=v;
     usuarioAtual.stats.deposito+=v;
     usuarioAtual.hist.unshift(`💳 Depósito +${v.toFixed(2)}`);
-    deposito.value="";
-    salvar();
-}
-
-function resetarSaldo(){
-    if(!confirm("Resetar saldo?")) return;
-    usuarioAtual.saldo=0;
-    usuarioAtual.stats={deposito:0,ganho:0,perda:0};
-    usuarioAtual.hist.unshift("🔄 Saldo resetado");
-    apostaAtual=null;
-    salvar();
-}
-
-function salvar(){
-    let users=getUsers();
-    users[users.findIndex(u=>u.user===usuarioAtual.user)]=usuarioAtual;
-    saveUsers(users);
-    atualizarTela();
-}
-
-function atualizarTela(){
-    saldo.value="R$ "+usuarioAtual.saldo.toFixed(2);
-
-    historico.innerHTML=usuarioAtual.hist.slice(0,4)
-        .map(h=>`<small>${h}</small><br>`).join("");
-
-    let s=usuarioAtual.stats;
-    let lucro=s.ganho-s.perda;
-
-    estatisticas.innerHTML=`
-    <small>
-    💳 Depositado: R$ ${s.deposito.toFixed(2)}<br>
-    📈 Ganhos: R$ ${s.ganho.toFixed(2)}<br>
-    📉 Perdas: R$ ${s.perda.toFixed(2)}<br>
-    ${lucro>=0?"🟢 Lucro":"🔴 Prejuízo"}: R$ ${Math.abs(lucro).toFixed(2)}
-    </small>`;
-}
-
-/* AUTO LOGIN */
-let l=localStorage.getItem("logado");
-if(l){
-    let u=getUsers().find(x=>x.user===l);
-    if(u){
-        usuarioAtual=corrigirUsuario(u);
-        abrirApp();
-    }
-}
-</script>
-
-</body>
-</html>
